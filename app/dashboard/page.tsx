@@ -57,6 +57,9 @@ export default async function DashboardPage({
             >
               Sign out
             </button>
+            <a href="/dashboard/history" className="text-stone-400 hover:text-stone-100 text-sm transition-colors">
+                History
+            </a>
           </form>
         </div>
       </header>
@@ -81,7 +84,7 @@ export default async function DashboardPage({
         </nav>
 
         {/* Mobile tab bar */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-stone-900 border-t border-stone-800 flex justify-around px-2 py-2 z-10">
+        {/* <div className="md:hidden fixed bottom-0 left-0 right-0 bg-stone-900 border-t border-stone-800 flex justify-around px-2 py-2 z-10">
           {TOOLS.map((tool) => (
             
             <a
@@ -97,7 +100,7 @@ export default async function DashboardPage({
               <span className="hidden xs:block">{tool.label.split(" ")[0]}</span>
             </a>
           ))}
-        </div>
+        </div> */}
 
         {/* Main content */}
         <main className="flex-1 p-6 md:p-10 pb-24 md:pb-10">
