@@ -5,6 +5,8 @@ import DictionaryTool from "@/components/tools/DictionaryTool"
 import ThesaurusTool from "@/components/tools/ThesaurusTool"
 import GrammarTool from "@/components/tools/GrammarTool"
 import WordGeneratorTool from "@/components/tools/WordGeneratorTool"
+import RhymeTool from "@/components/tools/RhymeTool"
+import SearchTool from "@/components/tools/SearchTool"
 
 const TOOLS = [
   { id: "prompt",     label: "Prompt Generator", icon: "✨", component: <PromptTool /> },
@@ -12,6 +14,8 @@ const TOOLS = [
   { id: "thesaurus",  label: "Thesaurus",         icon: "🔄", component: <ThesaurusTool /> },
   { id: "grammar",    label: "Grammar Checker",   icon: "✏️", component: <GrammarTool /> },
   { id: "wordgen",    label: "Word Generator",    icon: "💡", component: <WordGeneratorTool /> },
+  { id: "rhyme",      label: "Rhyme Generator",   icon: "🎵", component: <RhymeTool /> },
+  { id: "search",     label: "General Search",    icon: "🔍", component: <SearchTool /> },
 ]
 
 export default async function DashboardPage({
