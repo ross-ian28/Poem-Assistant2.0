@@ -8,6 +8,19 @@ import WordGeneratorTool from "@/components/tools/WordGeneratorTool"
 import RhymeTool from "@/components/tools/RhymeTool"
 import SearchTool from "@/components/tools/SearchTool"
 
+function ActiveTool({ id }: { id: string }) {
+  switch (id) {
+    case "prompt":     return <PromptTool />
+    case "dictionary": return <DictionaryTool />
+    case "thesaurus":  return <ThesaurusTool />
+    case "grammar":    return <GrammarTool />
+    case "wordgen":    return <WordGeneratorTool />
+    case "rhyme":      return <RhymeTool />
+    case "search":     return <SearchTool />
+    default:           return <PromptTool />
+  }
+}
+
 const TOOLS = [
   { id: "prompt",     label: "Prompt Generator", icon: "✨", component: <PromptTool /> },
   { id: "dictionary", label: "Dictionary",        icon: "📖", component: <DictionaryTool /> },
@@ -35,8 +48,14 @@ export default async function DashboardPage({
       {/* Header */}
       <header className="border-b border-stone-800 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-2xl">🖊️</span>
-          <span className="font-bold text-lg tracking-tight">Poem Assistant</span>
+          <img
+            src="/logo.png"
+            alt="Poem Assistant"
+            className="h-8 w-auto"
+          />
+          <span className="font-gothic text-xl tracking-tight text-stone-100">
+            Poem Assistant
+          </span>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-stone-400 text-sm hidden sm:block">
@@ -49,6 +68,18 @@ export default async function DashboardPage({
               className="w-8 h-8 rounded-full"
             />
           )}
+          <a
+            href="/dashboard/ideas"
+            className="text-stone-400 hover:text-stone-100 text-sm transition-colors"
+          >
+            ⭐ Idea Storage
+          </a>
+          <a
+            href="/dashboard/history"
+            className="text-stone-400 hover:text-stone-100 text-sm transition-colors"
+          >
+            🕐 History
+          </a>
           <form
             action={async () => {
               "use server"
@@ -61,56 +92,53 @@ export default async function DashboardPage({
             >
               Sign out
             </button>
-            <a href="/dashboard/history" className="text-stone-400 hover:text-stone-100 text-sm transition-colors">
-                History
-            </a>
           </form>
         </div>
       </header>
-
+  
       <div className="flex flex-1">
         {/* Sidebar */}
-        <nav className="w-56 border-r border-stone-800 p-4 space-y-1 hidden md:block">
-          {TOOLS.map((tool) => (
+        <nav className="w-56 border-r border-stone-800 p-4 space-y-1 hidden md:flex md:flex-col">
+          <div className="space-y-1">
+            {TOOLS.map((tool) => (
+              <a
+                key={tool.id}
+                href={`/dashboard?tool=${tool.id}`}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  activeTool === tool.id
+                    ? "bg-amber-500 text-stone-900 font-semibold"
+                    : "text-stone-400 hover:text-stone-100 hover:bg-stone-800"
+                }`}
+              >
+                <span>{tool.icon}</span>
+                {tool.label}
+              </a>
+            ))}
+          </div>
+  
+          <div className="mt-4 pt-4 border-t border-stone-800 space-y-1">
             <a
-              key={tool.id}
-              href={`/dashboard?tool=${tool.id}`}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                activeTool === tool.id
-                  ? "bg-amber-500 text-stone-900 font-semibold"
-                  : "text-stone-400 hover:text-stone-100 hover:bg-stone-800"
-              }`}
+              href="/dashboard/ideas"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-stone-400 hover:text-stone-100 hover:bg-stone-800 transition-colors"
             >
-              <span>{tool.icon}</span>
-              {tool.label}
+              <span>⭐</span>
+              Idea Storage
             </a>
-          ))}
+            <a
+              href="/dashboard/history"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-stone-400 hover:text-stone-100 hover:bg-stone-800 transition-colors"
+            >
+              <span>🕐</span>
+              History
+            </a>
+          </div>
         </nav>
-
-        {/* Mobile tab bar */}
-        {/* <div className="md:hidden fixed bottom-0 left-0 right-0 bg-stone-900 border-t border-stone-800 flex justify-around px-2 py-2 z-10">
-          {TOOLS.map((tool) => (
-            
-            <a
-              key={tool.id}
-              href={`/dashboard?tool=${tool.id}`}
-              className={`flex flex-col items-center gap-1 px-2 py-1 rounded-lg text-xs transition-colors ${
-                activeTool === tool.id
-                  ? "text-amber-400"
-                  : "text-stone-500"
-              }`}
-            >
-              <span className="text-lg">{tool.icon}</span>
-              <span className="hidden xs:block">{tool.label.split(" ")[0]}</span>
-            </a>
-          ))}
-        </div> */}
-
+  
         {/* Main content */}
         <main className="flex-1 p-6 md:p-10 pb-24 md:pb-10">
-          <h2 className="text-2xl font-bold mb-1">{active.icon} {active.label}</h2>
+          <h2 className="font-gothic text-3xl mb-1">{active.icon} {active.label}</h2>
           <div className="mt-6 max-w-2xl">
-            {active.component}
+            <ActiveTool id={activeTool} />
           </div>
         </main>
       </div>

@@ -1,14 +1,18 @@
 "use client"
 import { useState } from "react"
+import ToolResult from "@/components/ToolResult"
+import StarButton from "@/components/StarButton"
 
 export default function PromptTool() {
   const [count, setCount] = useState(5)
   const [result, setResult] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [historyId, setHistoryId] = useState<string | null>(null)
 
   const run = async () => {
     setError("")
+    setHistoryId(null)
     setLoading(true)
     try {
       const res = await fetch("/api/tools", {
@@ -21,6 +25,7 @@ export default function PromptTool() {
         setError(data.error ?? "Something went wrong.")
       } else {
         setResult(data.result)
+        setHistoryId(data.historyId)
       }
     } catch {
       setError("Network error. Please try again.")
@@ -52,10 +57,6 @@ export default function PromptTool() {
           onChange={(e) => setCount(Number(e.target.value))}
           className="w-full accent-amber-500 cursor-pointer"
         />
-        <div className="flex justify-between text-stone-600 text-xs">
-          <span>1</span>
-          <span>10</span>
-        </div>
       </div>
 
       <button
@@ -69,8 +70,14 @@ export default function PromptTool() {
       {error && <p className="text-red-400 text-sm">{error}</p>}
 
       {result && (
-        <div className="bg-stone-800 rounded-lg p-4 text-stone-300 whitespace-pre-wrap text-sm leading-relaxed">
-          {result}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <p className="text-stone-500 text-xs">
+              {historyId ? "Save to Idea Storage" : ""}
+            </p>
+            {historyId && <StarButton toolHistoryId={historyId} />}
+          </div>
+          <ToolResult result={result} />
         </div>
       )}
     </div>

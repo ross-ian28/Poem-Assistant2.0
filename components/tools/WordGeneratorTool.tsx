@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import ToolResult from "@/components/ToolResult"
 
 export default function WordGeneratorTool() {
   const [count, setCount] = useState(5)
@@ -52,10 +53,6 @@ export default function WordGeneratorTool() {
           onChange={(e) => setCount(Number(e.target.value))}
           className="w-full accent-amber-500 cursor-pointer"
         />
-        <div className="flex justify-between text-stone-600 text-xs">
-          <span>1</span>
-          <span>10</span>
-        </div>
       </div>
 
       <button
@@ -68,11 +65,7 @@ export default function WordGeneratorTool() {
 
       {error && <p className="text-red-400 text-sm">{error}</p>}
 
-      {result && (
-        <div className="bg-stone-800 rounded-lg p-4 text-stone-300 whitespace-pre-wrap text-sm leading-relaxed">
-          {result}
-        </div>
-      )}
+      {result && <ToolResult result={result} />}
     </div>
   )
 }

@@ -11,7 +11,11 @@ export default async function LoginPage() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-stone-950 text-stone-100">
       <div className="text-center space-y-6 max-w-md px-6">
-        <div className="text-6xl mb-4">🖊️</div>
+          <img
+            src="/logo.png"
+            alt="Poem Assistant"
+            className="h-50 w-auto mx-auto"
+          />
         <h1 className="text-5xl font-bold tracking-tight">Poem Assistant</h1>
         <p className="text-stone-400 text-lg">
           AI-powered tools for poets and writers. Dictionary, thesaurus, grammar

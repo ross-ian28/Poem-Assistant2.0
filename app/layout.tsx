@@ -8,6 +8,15 @@ const geist = Geist({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Poem Assistant",
   description: "AI-powered poetry writing tools",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
+  openGraph: {
+    title: "Poem Assistant",
+    description: "AI-powered poetry writing tools",
+    images: ["/logo.png"],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

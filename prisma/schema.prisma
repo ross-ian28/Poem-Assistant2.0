@@ -15,6 +15,7 @@ model User {
 
   sessions  Session[]
   history   ToolHistory[]
+  favorites Favorite[]
 }
 
 model Session {
@@ -34,5 +35,16 @@ model ToolHistory {
   result    String
   createdAt DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favorite  Favorite?
+}
+
+model Favorite {
+  id            String      @id @default(cuid())
+  userId        String
+  toolHistoryId String      @unique
+  createdAt     DateTime    @default(now())
+
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  toolHistory   ToolHistory @relation(fields: [toolHistoryId], references: [id], onDelete: Cascade)
 }

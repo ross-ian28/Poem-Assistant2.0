@@ -1,7 +1,8 @@
 "use client"
 import { useState } from "react"
+import ToolResult from "@/components/ToolResult"
 
-const MAX_CHARS = 2000
+const MAX_CHARS = 1000
 
 export default function GrammarTool() {
   const [input, setInput] = useState("")
@@ -82,11 +83,8 @@ export default function GrammarTool() {
         {loading ? "Checking..." : "Check Grammar"}
       </button>
 
-      {result && (
-        <div className="bg-stone-800 rounded-lg p-4 text-stone-300 whitespace-pre-wrap text-sm leading-relaxed">
-          {result}
-        </div>
-      )}
+      {result && <ToolResult result={result} />}
+
     </div>
   )
 }

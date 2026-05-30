@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import ToolResult from "@/components/ToolResult"
 
 const MAX_CHARS = 500
 
@@ -88,11 +89,7 @@ export default function SearchTool() {
         {loading ? "Searching..." : "Search"}
       </button>
 
-      {result && (
-        <div className="bg-stone-800 rounded-lg p-4 text-stone-300 whitespace-pre-wrap text-sm leading-relaxed">
-          {result}
-        </div>
-      )}
+      {result && <ToolResult result={result} />}
     </div>
   )
 }
