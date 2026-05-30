@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "GothicFont";
+    src: url("/fonts/angelWish.ttf") format("truetype"),
+         url("/fonts/angelWish.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "AncientFont";
+    src: url("/fonts/ancientMedium.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @theme {
+    --font-gothic: "GothicFont", serif;
+    --font-ancient: "AncientFont", serif;
+    --color-void: #0d0a12;
+    --color-crypt: #110d1a;
+    --color-dusk: #1a1225;
+  }
