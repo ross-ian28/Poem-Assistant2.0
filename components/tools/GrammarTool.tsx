@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import ToolResult from "@/components/ToolResult"
+import StarButton from "@/components/StarButton"
 
 const MAX_CHARS = 1000
 
@@ -9,23 +10,21 @@ export default function GrammarTool() {
   const [result, setResult] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [historyId, setHistoryId] = useState<string | null>(null)
 
   const remaining = MAX_CHARS - input.length
   const isNearLimit = remaining <= 200
 
   const run = async () => {
     setError("")
+    setHistoryId(null)
     const trimmed = input.trim()
-
+  
     if (!trimmed) {
-      setError("Please enter some text to check.")
+      setError("Please enter a word.")
       return
     }
-    if (trimmed.length < 10) {
-      setError("Please enter at least 10 characters.")
-      return
-    }
-
+  
     setLoading(true)
     try {
       const res = await fetch("/api/tools", {
@@ -34,11 +33,19 @@ export default function GrammarTool() {
         body: JSON.stringify({ tool: "grammar", input: trimmed }),
       })
       const data = await res.json()
+  
+      if (res.status === 429) {
+        setError(data.message)
+        return
+      }
+  
       if (!res.ok) {
         setError(data.error ?? "Something went wrong.")
-      } else {
-        setResult(data.result)
+        return
       }
+  
+      setResult(data.result)
+      setHistoryId(data.historyId)
     } catch {
       setError("Network error. Please try again.")
     } finally {
@@ -83,8 +90,17 @@ export default function GrammarTool() {
         {loading ? "Checking..." : "Check Grammar"}
       </button>
 
-      {result && <ToolResult result={result} />}
-
+      {result && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <p className="text-stone-500 text-xs">
+              {historyId ? "Save to Idea Storage" : ""}
+            </p>
+            {historyId && <StarButton toolHistoryId={historyId} />}
+          </div>
+          <ToolResult result={result} />
+        </div>
+      )}
     </div>
   )
 }

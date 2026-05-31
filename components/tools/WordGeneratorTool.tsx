@@ -1,15 +1,18 @@
 "use client"
 import { useState } from "react"
 import ToolResult from "@/components/ToolResult"
+import StarButton from "@/components/StarButton"
 
 export default function WordGeneratorTool() {
   const [count, setCount] = useState(5)
   const [result, setResult] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [historyId, setHistoryId] = useState<string | null>(null)
 
   const run = async () => {
     setError("")
+    setHistoryId(null)
     setLoading(true)
     try {
       const res = await fetch("/api/tools", {
@@ -18,11 +21,19 @@ export default function WordGeneratorTool() {
         body: JSON.stringify({ tool: "wordgen", input: String(count) }),
       })
       const data = await res.json()
+  
+      if (res.status === 429) {
+        setError(data.message)
+        return
+      }
+  
       if (!res.ok) {
         setError(data.error ?? "Something went wrong.")
-      } else {
-        setResult(data.result)
+        return
       }
+  
+      setResult(data.result)
+      setHistoryId(data.historyId)
     } catch {
       setError("Network error. Please try again.")
     } finally {
@@ -65,7 +76,17 @@ export default function WordGeneratorTool() {
 
       {error && <p className="text-red-400 text-sm">{error}</p>}
 
-      {result && <ToolResult result={result} />}
+      {result && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <p className="text-stone-500 text-xs">
+              {historyId ? "Save to Idea Storage" : ""}
+            </p>
+            {historyId && <StarButton toolHistoryId={historyId} />}
+          </div>
+          <ToolResult result={result} />
+        </div>
+      )}
     </div>
   )
 }

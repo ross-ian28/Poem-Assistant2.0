@@ -21,12 +21,18 @@ export default function PromptTool() {
         body: JSON.stringify({ tool: "prompt", input: String(count) }),
       })
       const data = await res.json()
+      
+      if (res.status === 429) {
+        setError(data.message)
+        return
+      }
+  
       if (!res.ok) {
         setError(data.error ?? "Something went wrong.")
-      } else {
-        setResult(data.result)
-        setHistoryId(data.historyId)
       }
+      
+      setResult(data.result)
+      setHistoryId(data.historyId)
     } catch {
       setError("Network error. Please try again.")
     } finally {

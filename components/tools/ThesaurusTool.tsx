@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import ToolResult from "@/components/ToolResult"
+import StarButton from "@/components/StarButton"
 
 const MAX_CHARS = 50
 
@@ -9,11 +10,13 @@ export default function ThesaurusTool() {
   const [result, setResult] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [historyId, setHistoryId] = useState<string | null>(null)
 
   const run = async () => {
     setError("")
+    setHistoryId(null)
     const trimmed = input.trim()
-
+  
     if (!trimmed) {
       setError("Please enter a word.")
       return
@@ -22,7 +25,7 @@ export default function ThesaurusTool() {
       setError("Please enter a single word only.")
       return
     }
-
+  
     setLoading(true)
     try {
       const res = await fetch("/api/tools", {
@@ -31,11 +34,19 @@ export default function ThesaurusTool() {
         body: JSON.stringify({ tool: "thesaurus", input: trimmed }),
       })
       const data = await res.json()
+  
+      if (res.status === 429) {
+        setError(data.message)
+        return
+      }
+  
       if (!res.ok) {
         setError(data.error ?? "Something went wrong.")
-      } else {
-        setResult(data.result)
+        return
       }
+  
+      setResult(data.result)
+      setHistoryId(data.historyId)
     } catch {
       setError("Network error. Please try again.")
     } finally {
@@ -81,7 +92,17 @@ export default function ThesaurusTool() {
         {loading ? "Finding synonyms..." : "Find Synonyms"}
       </button>
 
-      {result && <ToolResult result={result} />}
+      {result && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <p className="text-stone-500 text-xs">
+              {historyId ? "Save to Idea Storage" : ""}
+            </p>
+            {historyId && <StarButton toolHistoryId={historyId} />}
+          </div>
+          <ToolResult result={result} />
+        </div>
+      )}
     </div>
   )
 }
