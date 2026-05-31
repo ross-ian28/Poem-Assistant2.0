@@ -2,6 +2,11 @@ import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import StarButton from "@/components/StarButton"
+import type { ToolHistory, Favorite } from "@prisma/client"
+
+type HistoryWithFavorite = ToolHistory & {
+  favorite: Favorite | null
+}
 
 const TOOL_LABELS: Record<string, string> = {
   prompt:     "✨ Prompt Generator",
@@ -28,13 +33,13 @@ export default async function HistoryPage() {
     },
   })
 
-  const history = user?.history ?? []
+  const history: HistoryWithFavorite[] = user?.history ?? []
 
   return (
-    <div className="min-h-screen bg-stone-950 text-stone-100 p-6 md:p-10">
+    <div className="min-h-screen bg-void text-stone-100 p-6 md:p-10">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold">History</h1>
+          <h1 className="text-2xl font-gothic font-bold">History</h1>
           <a href="/dashboard" className="text-amber-500 hover:text-amber-400 text-sm">
             ← Back to tools
           </a>
@@ -44,7 +49,7 @@ export default async function HistoryPage() {
           <p className="text-stone-500">No history yet. Use a tool to get started.</p>
         ) : (
           <div className="space-y-4">
-            {history.map((entry) => (
+            {history.map((entry: HistoryWithFavorite) => (
               <div key={entry.id} className="bg-stone-900 border border-stone-800 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-amber-400 text-sm font-semibold">
