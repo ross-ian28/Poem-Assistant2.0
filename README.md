@@ -1,36 +1,153 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🖊️ Poem Assistant
+
+An AI-powered writing toolkit for poets and writers. Built with Next.js, powered by Claude AI.
+
+**Live App:** [https://poem-assistant2-0.vercel.app](https://poem-assistant2-0.vercel.app)
+
+---
+
+## Features
+
+- **Prompt Generator** — Generate random, evocative poem writing prompts
+- **Dictionary** — Literary definitions with etymology and poetic usage examples
+- **Thesaurus** — Synonyms grouped by tone and nuance for finding the perfect word
+- **Grammar Checker** — Grammar and style feedback tailored for poets
+- **Word Generator** — Random evocative words by part of speech
+- **Rhyme Generator** — Perfect and near rhymes ranked and categorized
+- **General Search** — Ask anything about poetry, literature, and writing
+- **Idea Storage** — Star and save your favorite generated results
+- **History** — Browse your last 50 tool uses
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Authentication | NextAuth.js v5 (Google OAuth) |
+| AI | Anthropic Claude API (claude-sonnet-4-5) |
+| ORM | Prisma 7 |
+| Database (local) | PostgreSQL via Postgres.app |
+| Database (production) | Neon (serverless PostgreSQL) |
+| Deployment | Vercel |
+| Rate Limiting | Upstash Redis |
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- PostgreSQL running locally (via [Postgres.app](https://postgresapp.com) or Docker)
+- An [Anthropic API key](https://console.anthropic.com/)
+- A Google Cloud project with OAuth credentials
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/ross-ian28/poem-assistant.git
+cd poem-assistant
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+Create a `.env.local` file in the root of the project:
+
+```env
+# Generate with: npx auth secret
+AUTH_SECRET=your-auth-secret
+
+# From Google Cloud Console
+AUTH_GOOGLE_ID=your-google-client-id
+AUTH_GOOGLE_SECRET=your-google-client-secret
+
+# Anthropic API
+ANTHROPIC_API_KEY=your-anthropic-api-key
+
+# Local PostgreSQL
+DATABASE_URL="postgresql://localhost:5432/poem_assistant"
+
+# Upstash Redis (for rate limiting)
+UPSTASH_REDIS_REST_URL=your-upstash-url
+UPSTASH_REDIS_REST_TOKEN=your-upstash-token
+```
+
+Also create a `.env` file in the root (required by Prisma CLI):
+
+```env
+DATABASE_URL="postgresql://localhost:5432/poem_assistant"
+```
+
+### 4. Set up the database
+
+Create the local database:
+
+```bash
+psql postgres -c "CREATE DATABASE poem_assistant;"
+```
+
+Run migrations:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+Generate the Prisma client:
+
+```bash
+npx prisma generate
+```
+
+### 5. Set up Google OAuth
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Create a new project
+3. Go to **APIs & Services → OAuth consent screen** and configure it
+4. Go to **APIs & Services → Credentials → Create Credentials → OAuth client ID**
+5. Set application type to **Web application**
+6. Add authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
+7. Copy the Client ID and Client Secret into your `.env.local`
+
+### 6. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) and sign in with Google.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Database Schema
+User
+├── id, email, name, image, createdAt
+├── → ToolHistory (one to many)
+└── → Favorite (one to many)
+ToolHistory
+├── id, userId, tool, input, result, createdAt
+└── → Favorite (one to one, optional)
+Favorite
+└── id, userId, toolHistoryId, createdAt
+RateLimit
+└── id, email, window, count, updatedAt
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Security
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Google OAuth only — no passwords stored
+- All dashboard routes protected by middleware
+- Per-user rate limiting (20 requests/hour) via Upstash Redis
+- Input length validation on all tools (max 2000 characters)
+- Parameterized queries via Prisma (SQL injection protected)
+- Security headers via Next.js config
