@@ -26,7 +26,8 @@ const TOOL_PROMPTS: Record<string, (input: string) => string> = {
     `You are a literary dictionary. Define the word "${input}". Provide a clear, thorough definition covering its primary meaning, part of speech, etymology if interesting, and any notable poetic or literary usage. Write it as a single flowing paragraph like a high quality dictionary entry — no lists, no numbering, no bullet points. End with one example sentence using the word in a poetic or literary context, labeled "Example:".`,
 
   thesaurus: (input) =>
-    `You are a poet's thesaurus. For the word "${input}", return exactly 10 synonyms. Vary them across tone and register — include formal, lyrical, archaic, and modern options. Format each entry like this, with the synonym and its connotation note indented on a new line after the number:
+    `You are a poet's thesaurus. For the word "${input}", return exactly 10 synonyms. At the top give a short defintion of the word so the user knows its meaning. Vary them across tone and register — include formal, lyrical, archaic, and modern options. Format each entry like this:
+    "${input}: [definition of word]
 
     1. [synonym] — [one-line note on its tone or connotation]
 

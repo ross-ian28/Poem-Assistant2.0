@@ -20,7 +20,15 @@
   @theme {
     --font-gothic: "GothicFont", serif;
     --font-ancient: "AncientFont", serif;
-    --color-void: #0d0a12;
-    --color-crypt: #110d1a;
-    --color-dusk: #1a1225;
+
+    --color-inkwell:   #0e0b0f;
+    --color-deeppurple:  #6b0318;
+    --color-catacombs: #1e1728;
+    --color-dusk:      #2a2035;
+    --color-wax:       #3d3050;
+    --color-parchment: #e8d9b0;
+    --color-candlelight: #c9a84c;
+    --color-tarnish:   #8a6f3a;
+    --color-crimson:   #8b2020;
+    --color-fog:       #9b8fa8;
   }
