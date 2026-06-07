@@ -80,11 +80,11 @@ export default async function IdeasPage() {
                 className="bg-darkmaroon border border-rosewood rounded-lg p-6 space-y-3"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-parchment font-gothic text-xl">
+                  <span className="text-parchment font-gothic text-2xl">
                     {TOOL_LABELS[fav.toolHistory.tool] ?? fav.toolHistory.tool}
                   </span>
                   <div className="flex items-center gap-4">
-                    <span className="text-mauve font-gothic text-sm">
+                    <span className="text-mauve font-gothic">
                       {new Date(fav.createdAt).toLocaleDateString(undefined, {
                         month: "long",
                         day: "numeric",
@@ -101,14 +101,14 @@ export default async function IdeasPage() {
                 </div>
 
                 <div className="border-t border-rosewood pt-3">
-                  <p className="text-mauve font-gothic text-sm mb-1">Input</p>
-                  <p className="text-parchment font-gothic text-lg">
+                  <p className="text-mauve font-gothic text-lg mb-1">Input</p>
+                  <p className="text-parchment font-gothic text-xl">
                     {fav.toolHistory.input}
                   </p>
                 </div>
 
                 <div className="border-t border-rosewood pt-3">
-                  <p className="text-mauve font-gothic text-sm mb-2">Result</p>
+                  <p className="text-mauve font-gothic text-lg mb-2">Result</p>
                   <div className="bg-burgundy border border-rosewood rounded-lg p-4 text-parchment font-gothic text-base whitespace-pre-wrap leading-relaxed">
                     {fav.toolHistory.result}
                   </div>
