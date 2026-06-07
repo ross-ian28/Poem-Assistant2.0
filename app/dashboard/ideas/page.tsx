@@ -2,15 +2,20 @@ import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import StarButton from "@/components/StarButton"
+import type { Favorite, ToolHistory } from "@prisma/client"
+
+type FavoriteWithHistory = Favorite & {
+  toolHistory: ToolHistory
+}
 
 const TOOL_LABELS: Record<string, string> = {
-  prompt:     "✨ Prompt Generator",
-  dictionary: "📖 Dictionary",
-  thesaurus:  "🔄 Thesaurus",
-  grammar:    "✏️ Grammar Checker",
-  wordgen:    "💡 Word Generator",
-  rhyme:      "🎵 Rhyme Generator",
-  search:     "🔍 General Search",
+  prompt:     "Prompt Generator",
+  dictionary: "Dictionary",
+  thesaurus:  "Thesaurus",
+  grammar:    "Grammar Checker",
+  wordgen:    "Word Generator",
+  rhyme:      "Rhyme Generator",
+  search:     "General Search",
 }
 
 export default async function IdeasPage() {
@@ -29,41 +34,63 @@ export default async function IdeasPage() {
     },
   })
 
-  const favorites = user?.favorites ?? []
+  const favorites: FavoriteWithHistory[] = user?.favorites ?? []
 
   return (
-    <div className="min-h-screen bg-stone-950 text-stone-100 p-6 md:p-10">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex items-center justify-between mb-2">
-          <h1 className="text-2xl font-bold">Idea Storage</h1>
-          <a href="/dashboard" className="text-amber-500 hover:text-amber-400 text-sm">
+    <div className="min-h-screen text-parchment bg-mauve p-6 md:p-10" >
+      <div className="max-w-3xl mx-auto"         
+      style={{
+          backgroundImage: "url('/purple_victorian_background.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+        }}>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-5xl font-gothic text-parchment">Idea Storage</h1>
+          <a
+            href="/dashboard"
+            className="text-shadow hover:text-parchment font-gothic text-2xl transition-colors"
+          >
             ← Back to tools
           </a>
         </div>
-        <p className="text-stone-500 text-sm mb-8">
+
+        <p className="text-shadow font-gothic text-lg mb-8">
           Your starred prompts and results saved for later.
         </p>
 
+        <div className="border-t border-rosewood mb-8" />
+
         {favorites.length === 0 ? (
-          <div className="text-center py-20 space-y-3">
-            <p className="text-4xl">⭐</p>
-            <p className="text-stone-400">No ideas saved yet.</p>
-            <p className="text-stone-600 text-sm">
+          <div className="text-center py-20 space-y-4">
+            <p className="text-parchment font-gothic text-5xl">✦</p>
+            <p className="text-parchment font-gothic text-2xl">
+              No ideas have been preserved yet.
+            </p>
+            <p className="text-mauve font-gothic text-lg">
               Star any result from a tool or your history to save it here.
             </p>
           </div>
         ) : (
-          <div className="space-y-4">
-            {favorites.map((fav) => (
-              <div key={fav.id} className="bg-stone-900 border border-stone-800 rounded-xl p-5">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-amber-400 text-sm font-semibold">
+          <div className="space-y-6">
+            {favorites.map((fav: FavoriteWithHistory) => (
+              <div
+                key={fav.id}
+                className="bg-darkmaroon border border-rosewood rounded-lg p-6 space-y-3"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-parchment font-gothic text-xl">
                     {TOOL_LABELS[fav.toolHistory.tool] ?? fav.toolHistory.tool}
                   </span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-stone-500 text-xs">
+                  <div className="flex items-center gap-4">
+                    <span className="text-mauve font-gothic text-sm">
                       {new Date(fav.createdAt).toLocaleDateString(undefined, {
-                        month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
                       })}
                     </span>
                     <StarButton
@@ -72,12 +99,19 @@ export default async function IdeasPage() {
                     />
                   </div>
                 </div>
-                <p className="text-stone-300 text-sm mb-3">
-                  <span className="text-stone-500">Input: </span>
-                  {fav.toolHistory.input}
-                </p>
-                <div className="bg-stone-800 rounded-lg p-3 text-stone-400 text-sm whitespace-pre-wrap leading-relaxed">
-                  {fav.toolHistory.result}
+
+                <div className="border-t border-rosewood pt-3">
+                  <p className="text-mauve font-gothic text-sm mb-1">Input</p>
+                  <p className="text-parchment font-gothic text-lg">
+                    {fav.toolHistory.input}
+                  </p>
+                </div>
+
+                <div className="border-t border-rosewood pt-3">
+                  <p className="text-mauve font-gothic text-sm mb-2">Result</p>
+                  <div className="bg-burgundy border border-rosewood rounded-lg p-4 text-parchment font-gothic text-base whitespace-pre-wrap leading-relaxed">
+                    {fav.toolHistory.result}
+                  </div>
                 </div>
               </div>
             ))}
