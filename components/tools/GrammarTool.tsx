@@ -54,14 +54,14 @@ export default function GrammarTool() {
   }
 
   return (
-    <div className="space-y-4">
-      <p className="text-stone-400 text-sm">
-        Paste a poem or passage to check grammar and get style suggestions.
+    <div className="space-y-6">
+      <p className="text-mauve text-lg font-gothic">
+        Paste a poem or passage to have it reviewed for grammar and style.
       </p>
 
       <div className="space-y-1">
         <textarea
-          className="w-full bg-stone-800 border border-stone-700 rounded-lg px-4 py-2 text-stone-100 placeholder-stone-500 focus:outline-none focus:border-amber-500 h-36 resize-none"
+          className="w-full bg-darkmaroon border border-parchment rounded-lg px-4 py-3 text-parchment font-gothic text-lg placeholder-mauve focus:outline-none focus:border-mauve transition-colors h-48 resize-none"
           placeholder="Paste your poem or text here..."
           value={input}
           maxLength={MAX_CHARS}
@@ -72,11 +72,13 @@ export default function GrammarTool() {
         />
         <div className="flex justify-between items-center">
           {error ? (
-            <p className="text-red-400 text-xs">{error}</p>
+            <p className="text-ember font-gothic text-sm border border-ember rounded-lg px-4 py-2 bg-darkmaroon w-full mt-1">
+              {error}
+            </p>
           ) : (
             <span />
           )}
-          <p className={`text-xs ml-auto ${isNearLimit ? "text-amber-400" : "text-stone-600"}`}>
+          <p className={`font-gothic text-xs ml-auto mt-1 ${isNearLimit ? "text-ember" : "text-mauve"}`}>
             {input.length}/{MAX_CHARS}
           </p>
         </div>
@@ -85,18 +87,18 @@ export default function GrammarTool() {
       <button
         onClick={run}
         disabled={loading || !input.trim()}
-        className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 disabled:cursor-not-allowed text-stone-900 font-semibold px-5 py-2 rounded-lg transition-colors"
+        className="w-full bg-darkmaroon border border-parchment hover:bg-burgundy disabled:opacity-50 disabled:cursor-not-allowed text-parchment font-gothic text-xl py-3 px-5 rounded-lg transition-colors"
       >
-        {loading ? "Checking..." : "Check Grammar"}
+        {loading ? "Deciphering the manuscript..." : "Check Grammar"}
       </button>
 
       {result && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-stone-500 text-xs">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between border-t border-parchment pt-3">
+            <p className="text-mauve font-gothic text-xl italic">
               {historyId ? "Save to Idea Storage" : ""}
+              <span className="ml-2">{historyId && <StarButton toolHistoryId={historyId} />}</span>
             </p>
-            {historyId && <StarButton toolHistoryId={historyId} />}
           </div>
           <ToolResult result={result} />
         </div>

@@ -9,14 +9,22 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-stone-950 text-stone-100">
+    <main style={{
+      backgroundImage: "url('/images/purple_victorian_background.jpg')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed",
+    }}
+    className="min-h-screen flex flex-col items-center justify-center bg-redvelvet  text-parchment"
+    >
       <div className="text-center space-y-6 max-w-md px-6">
           <img
             src="/logo.png"
             alt="Poem Assistant"
             className="h-50 w-auto mx-auto"
           />
-        <h1 className="text-5xl font-bold tracking-tight">Poem Assistant</h1>
+        <h1 className="text-5xl font-bold font-gothic tracking-tight">Poem Assistant</h1>
         <p className="text-stone-400 text-lg">
           AI-powered tools for poets and writers. Dictionary, thesaurus, grammar
           checker, prompt generator, and more.

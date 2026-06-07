@@ -3,7 +3,7 @@ import { useState } from "react"
 import ToolResult from "@/components/ToolResult"
 import StarButton from "@/components/StarButton"
 
-const MAX_CHARS = 500
+const MAX_CHARS = 250
 
 export default function SearchTool() {
   const [input, setInput] = useState("")
@@ -54,14 +54,14 @@ export default function SearchTool() {
   }
 
   return (
-    <div className="space-y-4">
-      <p className="text-stone-400 text-sm">
+    <div className="space-y-6">
+      <p className="text-mauve text-lg font-gothic">
         Ask anything — writing advice, literary history, word origins, general knowledge.
       </p>
 
       <div className="space-y-1">
         <textarea
-          className="w-full bg-stone-800 border border-stone-700 rounded-lg px-4 py-2 text-stone-100 placeholder-stone-500 focus:outline-none focus:border-amber-500 h-28 resize-none"
+          className="w-full bg-darkmaroon border border-parchment rounded-lg px-4 py-3 text-parchment font-gothic text-lg placeholder-mauve focus:outline-none focus:border-mauve transition-colors h-36 resize-none"
           placeholder="e.g. What is iambic pentameter? How did the sonnet form originate?"
           value={input}
           maxLength={MAX_CHARS}
@@ -78,11 +78,15 @@ export default function SearchTool() {
         />
         <div className="flex justify-between items-center">
           {error ? (
-            <p className="text-red-400 text-xs">{error}</p>
+            <p className="text-ember font-gothic text-sm border border-ember rounded-lg px-4 py-2 bg-darkmaroon w-full mt-1">
+              {error}
+            </p>
           ) : (
-            <p className="text-stone-600 text-xs">Press Enter to search, Shift+Enter for new line</p>
+            <p className="text-mauve font-gothic text-xs">
+              Press Enter to search, Shift+Enter for new line
+            </p>
           )}
-          <p className={`text-xs ml-auto ${isNearLimit ? "text-amber-400" : "text-stone-600"}`}>
+          <p className={`font-gothic text-xs ml-auto mt-1 ${isNearLimit ? "text-ember" : "text-mauve"}`}>
             {input.length}/{MAX_CHARS}
           </p>
         </div>
@@ -91,18 +95,18 @@ export default function SearchTool() {
       <button
         onClick={run}
         disabled={loading || !input.trim()}
-        className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 disabled:cursor-not-allowed text-stone-900 font-semibold px-5 py-2 rounded-lg transition-colors"
+        className="w-full bg-darkmaroon border border-parchment hover:bg-burgundy disabled:opacity-50 disabled:cursor-not-allowed text-parchment font-gothic text-xl py-3 px-5 rounded-lg transition-colors"
       >
-        {loading ? "Searching..." : "Search"}
+        {loading ? "Consulting the spirits..." : "Search"}
       </button>
 
       {result && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-stone-500 text-xs">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between border-t border-parchment pt-3">
+            <p className="text-mauve font-gothic text-xl italic">
               {historyId ? "Save to Idea Storage" : ""}
+              <span className="ml-2">{historyId && <StarButton toolHistoryId={historyId} />}</span>
             </p>
-            {historyId && <StarButton toolHistoryId={historyId} />}
           </div>
           <ToolResult result={result} />
         </div>

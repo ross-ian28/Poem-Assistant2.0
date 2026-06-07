@@ -55,14 +55,14 @@ export default function ThesaurusTool() {
   }
 
   return (
-    <div className="space-y-4">
-      <p className="text-stone-400 text-sm">
-        Find synonyms grouped by tone and nuance — perfect for finding the right word.
+    <div className="space-y-6">
+      <p className="text-mauve text-lg font-gothic">
+        Enter a word to find 10 synonyms.
       </p>
 
       <div className="space-y-1">
         <input
-          className="w-full bg-stone-800 border border-stone-700 rounded-lg px-4 py-2 text-stone-100 placeholder-stone-500 focus:outline-none focus:border-amber-500"
+          className="w-full bg-darkmaroon border border-parchment rounded-lg px-4 py-2 text-parchment font-gothic text-lg placeholder-mauve focus:outline-none focus:border-mauve transition-colors"
           placeholder="e.g. sad, beautiful, dark..."
           value={input}
           maxLength={MAX_CHARS}
@@ -74,11 +74,13 @@ export default function ThesaurusTool() {
         />
         <div className="flex justify-between items-center">
           {error ? (
-            <p className="text-red-400 text-xs">{error}</p>
+            <p className="text-ember font-ancient text-sm border border-ember rounded-lg px-4 py-2 bg-darkmaroon w-full mt-1">
+              {error}
+            </p>
           ) : (
             <span />
           )}
-          <p className="text-stone-600 text-xs ml-auto">
+          <p className="text-mauve font-ancient text-xs ml-auto mt-1">
             {input.length}/{MAX_CHARS}
           </p>
         </div>
@@ -87,18 +89,18 @@ export default function ThesaurusTool() {
       <button
         onClick={run}
         disabled={loading || !input.trim()}
-        className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 disabled:cursor-not-allowed text-stone-900 font-semibold px-5 py-2 rounded-lg transition-colors"
+        className="w-full bg-darkmaroon border border-parchment hover:bg-burgundy disabled:opacity-50 disabled:cursor-not-allowed text-parchment font-gothic text-xl py-3 px-5 rounded-lg transition-colors"
       >
-        {loading ? "Finding synonyms..." : "Find Synonyms"}
+        {loading ? "Consulting the archives..." : "Find Synonyms"}
       </button>
 
       {result && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-stone-500 text-xs">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between border-t border-parchment pt-3">
+            <p className="text-mauve font-gothic text-xl italic">
               {historyId ? "Save to Idea Storage" : ""}
+              <span className="ml-2">{historyId && <StarButton toolHistoryId={historyId} />}</span>
             </p>
-            {historyId && <StarButton toolHistoryId={historyId} />}
           </div>
           <ToolResult result={result} />
         </div>

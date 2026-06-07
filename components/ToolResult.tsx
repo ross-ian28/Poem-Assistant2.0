@@ -59,7 +59,7 @@ interface Props {
   
       // Default — plain prose
       elements.push(
-        <p key={i} className="text-stone-300 leading-relaxed">
+        <p key={i} className="text-fog leading-relaxed">
           {trimmed}
         </p>
       )
@@ -67,7 +67,7 @@ interface Props {
     }
   
     return (
-      <div className="bg-stone-800 rounded-lg p-5 text-sm space-y-1">
+      <div className="bg-parchment rounded-lg p-5 text-velvet space-y-1">
         {elements}
       </div>
     )

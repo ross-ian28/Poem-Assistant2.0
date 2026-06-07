@@ -21,14 +21,15 @@
     --font-gothic: "GothicFont", serif;
     --font-ancient: "AncientFont", serif;
 
-    --color-inkwell:   #0e0b0f;
-    --color-deeppurple:  #6b0318;
-    --color-catacombs: #1e1728;
-    --color-dusk:      #2a2035;
-    --color-wax:       #3d3050;
-    --color-parchment: #e8d9b0;
-    --color-candlelight: #c9a84c;
-    --color-tarnish:   #8a6f3a;
-    --color-crimson:   #8b2020;
-    --color-fog:       #9b8fa8;
+    --color-redvelvet:  #4a1260;
+    --color-darkmaroon:  #3d010d;
+    --color-burgundy:    #850320;
+    --color-velvet:      #9e1a35;
+    --color-rosewood:    #b5485a;
+    --color-parchment:   #f0dfc0;
+    --color-dusk:      #7a5c7a;
+    --color-mauve:   #9e7a8a;
+    --color-shadow:   #4a3550;
+    --color-ashwhite:    #e8ddd5;
+    --color-ember:       #8b2020;
   }

@@ -42,19 +42,16 @@ export default function WordGeneratorTool() {
   }
 
   return (
-    <div className="space-y-4">
-      <p className="text-stone-400 text-sm">
+    <div className="space-y-6">
+      <p className="text-mauve text-lg font-gothic">
         Choose how many random words to generate.
       </p>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <label className="text-stone-300 text-sm font-medium">
-            Number of words
+          <label className="text-parchment font-gothic text-3xl">
+            Number of words: <span className="ml-1 relative top-0.5">{count}</span>
           </label>
-          <span className="text-amber-400 font-bold text-lg w-6 text-center">
-            {count}
-          </span>
         </div>
         <input
           type="range"
@@ -62,27 +59,31 @@ export default function WordGeneratorTool() {
           max={10}
           value={count}
           onChange={(e) => setCount(Number(e.target.value))}
-          className="w-full accent-amber-500 cursor-pointer"
+          className="w-full accent-mauve cursor-pointer"
         />
       </div>
 
       <button
         onClick={run}
         disabled={loading}
-        className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 disabled:cursor-not-allowed text-stone-900 font-semibold px-5 py-2 rounded-lg transition-colors"
+        className="w-full bg-darkmaroon border border-parchment hover:bg-burgundy disabled:opacity-50 disabled:cursor-not-allowed text-parchment font-gothic text-xl py-3 px-5 rounded-lg transition-colors"
       >
-        {loading ? "Generating..." : `Generate ${count} Word${count > 1 ? "s" : ""}`}
+        {loading ? "Conjuring..." : `Generate ${count} Word${count > 1 ? "s" : ""}`}
       </button>
 
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && (
+        <p className="text-ember font-ancient text-sm border border-ember rounded-lg px-4 py-2 bg-darkmaroon">
+          {error}
+        </p>
+      )}
 
       {result && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-stone-500 text-xs">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between border-t border-parchment pt-3">
+            <p className="text-mauve font-gothic text-xl italic">
               {historyId ? "Save to Idea Storage" : ""}
+              <span className="ml-2">{historyId && <StarButton toolHistoryId={historyId} />}</span>
             </p>
-            {historyId && <StarButton toolHistoryId={historyId} />}
           </div>
           <ToolResult result={result} />
         </div>
