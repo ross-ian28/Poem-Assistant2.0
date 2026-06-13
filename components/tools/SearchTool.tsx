@@ -103,8 +103,8 @@ export default function SearchTool() {
       {result && (
         <div className="space-y-3">
           <div className="flex items-center justify-between border-t border-parchment pt-3">
-            <p className="text-mauve font-gothic text-xl italic">
-              {historyId ? "Save to Idea Storage" : ""}
+            <p className="text-mauve font-gothic text-3xl">
+              {historyId ? "Save to Idea Storage:" : ""}
               <span className="ml-2">{historyId && <StarButton toolHistoryId={historyId} />}</span>
             </p>
           </div>

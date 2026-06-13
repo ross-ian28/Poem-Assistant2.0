@@ -34,10 +34,10 @@ interface Props {
   
         elements.push(
           <div key={i} className="flex gap-3 mt-3">
-            <span className="text-amber-400 font-semibold shrink-0 w-6">
+            <span className="text-velvet font-semibold shrink-0 w-6">
               {number}
             </span>
-            <p className="text-stone-300 leading-relaxed">{content}</p>
+            <p className="text-velvet leading-relaxed">{content}</p>
           </div>
         )
   
@@ -49,7 +49,7 @@ interface Props {
       // Section label like "Example:" or "Note:"
       if (/^[A-Z][a-z]+:/.test(trimmed)) {
         elements.push(
-          <p key={i} className="text-stone-400 font-medium mt-4">
+          <p key={i} className="text-velvet font-medium mt-4">
             {trimmed}
           </p>
         )
@@ -59,7 +59,7 @@ interface Props {
   
       // Default — plain prose
       elements.push(
-        <p key={i} className="text-fog leading-relaxed">
+        <p key={i} className="text-velvet leading-relaxed">
           {trimmed}
         </p>
       )

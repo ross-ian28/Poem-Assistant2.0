@@ -40,7 +40,7 @@ export default function StarButton({ toolHistoryId, initialStarred = false }: Pr
       onClick={toggle}
       disabled={loading}
       title={starred ? "Remove from Idea Storage" : "Save to Idea Storage"}
-      className={`transition-all duration-200 disabled:opacity-50 hover:scale-110 text-xl leading-none ${
+      className={`relative top-1 transition-all duration-200 disabled:opacity-50 hover:scale-110 text-4xl leading-none ${
         starred ? "text-amber-400" : "text-stone-600 hover:text-amber-400"
       }`}
     >

@@ -146,8 +146,6 @@ export default async function DashboardPage({
     }}
   />
 
-  {/* Dark overlay to keep text readable */}
-  <div className="absolute inset-0 bg-darkmaroon opacity-20" />
 
   {/* Content sits above the overlay */}
   <div className="relative z-10 p-6 md:p-10 pb-24 md:pb-10">

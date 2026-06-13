@@ -14,12 +14,21 @@ const client = new Anthropic()
 
 const TOOL_PROMPTS: Record<string, (input: string) => string> = {
   prompt: (input) =>
-    `You are a creative writing assistant specializing in poetry. Generate exactly ${input} unique poem writing prompts completely at random — no themes or subjects have been provided, so surprise the reader. Vary the style, mood, subject matter, and form across all prompts. Format each prompt like this, with the text indented on a new line after the number:
+    `You are a creative writing assistant specializing in poetry. Generate exactly ${input} poem writing prompts, don't get too specific, keep the prompt vauge.
 
-    1. [prompt text here]
-
-    2. [prompt text here]
-
+    Rules:
+    - Each prompt must draw from a completely different domain — science, mythology, architecture, mathematics, obscure history, everyday objects, human psychology, the body, food, labor, childhood, technology, animals, weather, geography, or any other unexpected subject.
+    - Vary the emotional register across all prompts — not every prompt should be melancholic. Include prompts that are absurd, joyful, clinical, furious, tender, or detached.
+    - Before writing each prompt, silently roll a mental die to pick a random domain and a random form - then randomize the order of your responses
+  
+    Format each prompt like this:
+    
+    1.
+      [prompt text here]
+    
+    2.
+      [prompt text here]
+    
     Continue this format for all ${input} prompts.`,
 
   dictionary: (input) =>
